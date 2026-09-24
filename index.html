@@ -258,6 +258,29 @@
     color: #dab47e;
   }
 
+  /* Vlog type marker */
+  .track-type.vlog {
+    background: rgba(140,200,160,0.12);
+    color: #8cc8a0;
+  }
+
+  /* セクション見出し下のチャンネルリンク */
+  .channel-link {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.5rem;
+    margin: -2rem 0 2rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.3s;
+  }
+
+  .channel-link:hover {
+    color: var(--accent);
+  }
+
   .track-tracklist {
     font-size: 0.78rem;
     color: var(--text-muted);
@@ -536,6 +559,7 @@
   <div class="nav-links">
     <a href="#about">About</a>
     <a href="#discography">Discography</a>
+    <a href="#vlog">Vlog</a>
     <a href="#works">Works</a>
     <a href="#contact">Contact</a>
   </div>
@@ -558,11 +582,16 @@
       春の風、夏の終わり、雨の情景など、自然と感情が溶け合うような楽曲を制作している。
       インストゥルメンタル作品も手がけ、言葉を超えた音の風景を届けている。
       2021年より活動を開始し、これまでに12作品を発表。
+      2026年には日々の暮らしを綴るVlogチャンネルも開設。
     </p>
     <div class="about-links" id="links">
       <a href="https://www.youtube.com/@14do53" target="_blank" rel="noopener">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.9 31.9 0 0 0 0 12a31.9 31.9 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.3-1.8.5-3.8.5-5.8s-.2-4-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
-        YouTube
+        YouTube — Music
+      </a>
+      <a href="https://www.youtube.com/@celsius14-u4q" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.9 31.9 0 0 0 0 12a31.9 31.9 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.3-1.8.5-3.8.5-5.8s-.2-4-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+        YouTube — Vlog
       </a>
       <a href="https://x.com/___o14oo" target="_blank" rel="noopener">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -620,7 +649,8 @@
 <section>
   <div class="fade-in">
     <p class="section-label">Discography</p>
-    <h2 class="section-title">YouTube</h2>
+    <h2 class="section-title">YouTube — Music</h2>
+    <a class="channel-link" href="https://www.youtube.com/@14do53" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.9 31.9 0 0 0 0 12a31.9 31.9 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.3-1.8.5-3.8.5-5.8s-.2-4-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>@14do53</a>
   </div>
 
   <div class="disc-grid">
@@ -759,6 +789,28 @@
   </div>
 </section>
 
+<!-- Vlog -->
+<section id="vlog">
+  <div class="fade-in">
+    <p class="section-label">Vlog</p>
+    <h2 class="section-title">YouTube — Vlog</h2>
+    <a class="channel-link" href="https://www.youtube.com/@celsius14-u4q" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.9 31.9 0 0 0 0 12a31.9 31.9 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.3-1.8.5-3.8.5-5.8s-.2-4-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>@celsius14-u4q</a>
+  </div>
+
+  <div class="disc-grid">
+    <a class="track-card fade-in" href="https://www.youtube.com/watch?v=ZrYJVdmAimg" target="_blank" rel="noopener">
+      <img class="track-thumb" src="https://i.ytimg.com/vi/ZrYJVdmAimg/hqdefault.jpg" alt="A Peaceful Morning at Home" loading="lazy">
+      <div class="track-info">
+        <div class="track-title">A Peaceful Morning at Home｜赤ちゃんとの暮らし｜朝ごはん</div>
+        <div class="track-meta">
+          <span>2026</span>
+          <span class="track-type vlog">Vlog</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
 <!-- Works -->
 <section id="works">
   <div class="fade-in">
@@ -845,7 +897,9 @@
 <footer>
   <p>14℃ Music Portfolio</p>
   <p style="margin-top:0.5rem">
-    <a href="https://www.youtube.com/@14do53" target="_blank" rel="noopener">YouTube</a>
+    <a href="https://www.youtube.com/@14do53" target="_blank" rel="noopener">YouTube (Music)</a>
+    &nbsp;&middot;&nbsp;
+    <a href="https://www.youtube.com/@celsius14-u4q" target="_blank" rel="noopener">YouTube (Vlog)</a>
     &nbsp;&middot;&nbsp;
     <a href="https://x.com/___o14oo" target="_blank" rel="noopener">X (Twitter)</a>
   </p>
