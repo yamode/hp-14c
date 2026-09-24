@@ -8,876 +8,1085 @@
 <link rel="icon" type="image/jpeg" href="logo.jpg">
 <meta property="og:image" content="https://14c.jp/logo.jpg">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@300;400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;600&display=swap');
 
   :root {
     --bg: #ffffff;
-    --surface: #fbf8f5;
+    --paper: #faf7f4;
     --ink: #431004;
-    --text: #4a2e24;
-    --text-muted: #8f7469;
-    --accent: #431004;
-    --accent-hover: #7a3a22;
-    --border: #e9e0da;
-    --border-strong: #c9b8ae;
+    --text: #3a2419;
+    --muted: #6f5a50;
+    --rust: #7a3a22;
+    --line: #e6ddd6;
+    --line-strong: #c9b8ae;
+    --wash: #f3ebe5;
+
+    --sans: 'Noto Sans JP', sans-serif;
+    --serif-jp: 'Noto Serif JP', serif;
+    --serif-latin: 'Cormorant Garamond', 'Noto Serif JP', serif;
+    --lining: lining-nums proportional-nums;
+    --gutter: clamp(1.25rem, 4vw, 2.5rem);
+    --maxw: 1200px;
+    --ease: cubic-bezier(.22, .61, .36, 1);
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  [hidden] { display: none !important; }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-padding-top: 5rem; -webkit-text-size-adjust: 100%; }
 
   body {
-    font-family: 'Noto Serif JP', 'Cormorant Garamond', serif;
-    font-weight: 300;
-    background: var(--bg);
-    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 1rem;
     line-height: 1.9;
+    color: var(--text);
+    background: var(--bg);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
+  @media (min-width: 900px) { body { font-size: 1.0625rem; } }
 
-  /* Hero Section */
-  .hero {
-    min-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    padding: 5rem 1.5rem 6rem;
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+
+  /* ---------- Grain ---------- */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  .hero-title {
-    font-weight: 300;
-    line-height: 1;
-    position: relative;
-    z-index: 1;
-    opacity: 0;
-    animation: fadeUp 1.2s ease-out 0.3s forwards;
-  }
-
-  .hero-logo {
-    width: clamp(200px, 32vw, 300px);
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    filter: brightness(1.03) contrast(1.03); /* push the JPEG's off-white backdrop to pure white */
-  }
-
-  .hero-sub {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: clamp(0.95rem, 2vw, 1.1rem);
-    font-weight: 300;
-    color: var(--text-muted);
-    letter-spacing: 0.35em;
-    margin-top: 2rem;
-    position: relative;
-    z-index: 1;
-    opacity: 0;
-    animation: fadeUp 1.2s ease-out 0.7s forwards;
-  }
-
-  .scroll-hint {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    animation: fadeUp 1.2s ease-out 1.2s forwards;
-    z-index: 1;
-  }
-
-  .scroll-hint span {
-    display: block;
-    width: 1px;
-    height: 60px;
-    background: linear-gradient(to bottom, var(--ink), transparent);
-    margin: 0 auto;
-    animation: scrollLine 2s ease-in-out infinite;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes scrollLine {
-    0%, 100% { opacity: 0.3; transform: scaleY(0.5); }
-    50% { opacity: 1; transform: scaleY(1); }
-  }
-
-  /* Section Common */
-  section {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 6rem 2rem;
-  }
-
-  .section-label {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.8rem;
-    font-weight: 400;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 0.8rem;
-  }
-
-  .section-title {
-    font-family: 'Noto Serif JP', serif;
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    font-weight: 400;
-    margin-bottom: 3rem;
-    color: var(--ink);
-  }
-
-  /* About */
-  .about-text {
-    font-size: 1rem;
-    font-weight: 300;
-    color: var(--text);
-    max-width: 700px;
-    line-height: 2.1;
-  }
-
-  .about-links {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2.5rem;
-    flex-wrap: wrap;
-  }
-
-  .about-links a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--ink);
-    text-decoration: none;
-    font-size: 0.9rem;
-    padding: 0.6rem 1.3rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 100px;
-    transition: all 0.3s ease;
-  }
-
-  .about-links a:hover {
-    background: var(--ink);
-    color: #fff;
-    border-color: var(--ink);
-  }
-
-  /* Discography */
-  .disc-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .track-card {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-    transition: all 0.4s ease;
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-  }
-
-  .track-card:hover {
-    border-color: var(--border-strong);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(67,16,4,0.08);
-  }
-
-  .track-thumb {
-    width: 100%;
-    aspect-ratio: 16/9;
-    object-fit: cover;
-    display: block;
-    opacity: 1;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .track-info {
-    padding: 1.2rem 1.4rem;
-  }
-
-  .track-title {
-    font-size: 1.05rem;
-    font-weight: 500;
-    color: var(--ink);
-    margin-bottom: 0.4rem;
-  }
-
-  .track-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-  }
-
-  .track-type {
-    font-family: 'Cormorant Garamond', 'Noto Serif JP', serif;
+  /* ---------- Shared type ---------- */
+  .eyebrow {
+    font-family: var(--sans);
     font-weight: 500;
     font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    padding: 0.15rem 0.7rem;
-    border-radius: 100px;
-    background: #f6ebe6;
-    color: #7a3a22;
-    white-space: nowrap;
-  }
-
-  /* Instrumental section marker */
-  .track-type.inst {
-    background: #eef0ea;
-    color: #5d6b52;
-  }
-
-  /* CD type marker */
-  .track-type.cd {
-    background: #f3ead8;
-    color: #8a6120;
-  }
-
-  /* セクション見出し下のチャンネルリンク */
-  .channel-link {
-    display: flex;
-    width: fit-content;
-    align-items: center;
-    gap: 0.5rem;
-    margin: -2rem 0 2rem;
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.85rem;
-    transition: color 0.3s;
-  }
-
-  .channel-link:hover {
-    color: var(--ink);
-  }
-
-  .track-tracklist {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    margin-top: 0.5rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--muted);
     line-height: 1.6;
   }
 
-  .cd-grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 360px));
+  .heading {
+    font-family: var(--serif-jp);
+    font-weight: 600;
+    font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+    line-height: 1.4;
+    color: var(--ink);
+    font-feature-settings: "palt";
+    letter-spacing: 0.02em;
   }
 
-  /* Works */
-  .works-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .work-item {
-    display: flex;
+  .btn {
+    display: inline-flex;
     align-items: center;
-    gap: 1.2rem;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 1.4rem 1.6rem;
-    transition: all 0.3s ease;
+    gap: 0.6rem;
+    padding: 0.85rem 1.8rem;
+    border-radius: 100px;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
     text-decoration: none;
-    color: inherit;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color .3s var(--ease), border-color .3s var(--ease), color .3s var(--ease);
+  }
+  .btn:hover { background: var(--rust); border-color: var(--rust); }
+  .btn svg { transition: transform .3s var(--ease); }
+  .btn:hover svg { transform: translateX(3px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--line-strong);
+  }
+  .btn-ghost:hover { background: transparent; border-color: var(--ink); color: var(--ink); }
+
+  :focus-visible { outline: 2px solid var(--rust); outline-offset: 3px; }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem var(--gutter);
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color .4s var(--ease);
+  }
+  .nav.scrolled { border-bottom-color: var(--line); }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .brand img {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    object-fit: cover;
+  }
+  .brand span, .sec-num, .stat-num, .track-idx, .work-idx, .footer-mark, .ticker-track span {
+    font-variant-numeric: var(--lining);
+  }
+  .brand span {
+    font-family: var(--serif-latin);
+    font-weight: 600;
+    font-size: 1.8rem;
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links { display: flex; gap: 2.2rem; }
+  .nav-links a {
+    position: relative;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 0.3rem 0;
+    transition: color .3s var(--ease);
+  }
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 1px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform .45s var(--ease);
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+  .menu-btn {
+    display: none;
+    background: none;
+    border: 1px solid var(--line-strong);
+    border-radius: 100px;
+    padding: 0.4rem 1.1rem;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
     cursor: pointer;
   }
 
-  .work-item:hover {
-    border-color: var(--border-strong);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(67,16,4,0.08);
-  }
-
-  .work-icon {
-    font-size: 1.4rem;
-    width: 48px;
-    height: 48px;
+  .menu {
+    position: fixed;
+    inset: 0;
+    z-index: 190;
+    background: #fff;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
-    background: var(--surface);
-    color: var(--ink);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    flex-shrink: 0;
+    padding: 6rem var(--gutter) 3rem;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .35s var(--ease), visibility 0s linear .35s;
   }
-
-  .work-title {
-    font-size: 1.05rem;
+  .menu.open { visibility: visible; opacity: 1; transition: opacity .35s var(--ease); }
+  .menu ol { list-style: none; }
+  .menu li { border-top: 1px solid var(--line); }
+  .menu li:last-child { border-bottom: 1px solid var(--line); }
+  .menu a {
+    display: flex;
+    align-items: baseline;
+    gap: 1.2rem;
+    padding: 0.9rem 0;
+    text-decoration: none;
+    color: var(--ink);
+    font-family: var(--serif-latin);
     font-weight: 500;
+    font-size: 2.4rem;
+    line-height: 1.2;
+  }
+  .menu a small {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+  }
+  .menu-foot { margin-top: 2.5rem; display: flex; gap: 1.5rem; }
+  .menu-foot a {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    padding: 0;
+    display: inline;
+  }
+
+  @media (max-width: 700px) {
+    .nav-links { display: none; }
+    .menu-btn { display: inline-block; }
+    .brand span { font-size: 1.8rem; }
+  }
+  @media (min-width: 701px) { .menu { display: none; } }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    min-height: 92vh;
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 7rem var(--gutter) 4rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 3rem;
+  }
+  .hero-title {
+    font-family: var(--serif-jp);
+    font-weight: 500;
+    font-size: clamp(2.4rem, 5.4vw, 4.6rem);
+    line-height: 1.25;
     color: var(--ink);
-    margin-bottom: 0.3rem;
+    font-feature-settings: "palt";
+    letter-spacing: 0.02em;
+    margin: 1.4rem 0 1.8rem;
+  }
+  .hero-lead {
+    font-size: 1rem;
+    color: var(--text);
+    letter-spacing: 0.04em;
+  }
+  .hero-lead strong { font-weight: 500; color: var(--ink); }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 2.4rem; }
+  .hero-visual { display: flex; justify-content: center; }
+  .hero-logo {
+    width: clamp(200px, 26vw, 320px);
+    height: auto;
+    filter: brightness(1.03) contrast(1.03); /* push the JPEG's off-white backdrop to pure white */
   }
 
-  .work-desc {
-    font-size: 0.85rem;
-    color: var(--text-muted);
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+    .rise { opacity: 0; animation: fadeUp 1.1s var(--ease) forwards; }
+    .rise.d1 { animation-delay: .15s; }
+    .rise.d2 { animation-delay: .3s; }
+    .rise.d3 { animation-delay: .45s; }
+    .rise.d4 { animation-delay: .6s; }
+    .rise.d5 { animation-delay: .1s; }
   }
 
-  .work-external {
+  @media (max-width: 800px) {
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: auto;
+      padding-top: 6.5rem;
+      padding-bottom: 4rem;
+      gap: 2.2rem;
+    }
+    .hero-visual { order: -1; width: 100%; justify-content: flex-start; }
+    .hero-logo { width: 160px; }
+  }
+
+  /* ---------- Ticker ---------- */
+  .ticker {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+    padding: 0.9rem 0;
+  }
+  .ticker-track { display: flex; width: max-content; }
+  .ticker-track span {
     flex-shrink: 0;
-    color: var(--text-muted);
-    transition: color 0.3s;
+    white-space: nowrap;
+    font-family: var(--serif-latin);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.8rem;
+    line-height: 1.3;
+    color: var(--muted);
+    padding-right: 0.4em;
+  }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: no-preference) {
+    .ticker-track { animation: marquee 40s linear infinite; }
+    .ticker:hover .ticker-track { animation-play-state: paused; }
   }
 
-  .work-item:hover .work-external {
+  /* ---------- Sections ---------- */
+  .sec { padding: clamp(5rem, 10vw, 8.5rem) 0; }
+  .sec + .sec { border-top: 1px solid var(--line); }
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+  .grid { display: grid; grid-template-columns: 1fr; }
+  .sec-marker { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.8rem; }
+  .sec-num {
+    font-family: var(--serif-latin);
+    font-weight: 600;
+    font-size: 2rem;
+    line-height: 1;
     color: var(--ink);
   }
+  .sec-main > .heading { margin-bottom: 2rem; }
 
-  /* Contact Form */
-  .contact-form {
-    max-width: 600px;
+  @media (min-width: 900px) {
+    .grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 2rem; }
+    .sec-side { grid-column: 1 / span 3; }
+    .sec-side .sec-marker {
+      position: sticky;
+      top: 6rem;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-bottom: 0;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--ink);
+      width: fit-content;
+      min-width: 7rem;
+    }
+    .sec-main { grid-column: 5 / span 8; }
+    .sec-full { grid-column: 1 / -1; }
   }
 
-  .form-group {
-    margin-bottom: 1.4rem;
+  /* ---------- About ---------- */
+  .about-text {
+    font-size: 1.0625rem;
+    line-height: 2.1;
+    max-width: 38em;
+  }
+  .pills { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 2.2rem; }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.6rem 1.3rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 100px;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+    transition: background-color .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease);
+  }
+  .pill:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-top: 4rem;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .stat { padding: 1.6rem 1.2rem; }
+  .stat + .stat { border-left: 1px solid var(--line); }
+  .stat:first-child { padding-left: 0; }
+  .stat-num {
+    font-family: var(--serif-latin);
+    font-weight: 600;
+    font-size: 2.8rem;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .stat .eyebrow { margin-top: 0.5rem; letter-spacing: 0.2em; }
+  @media (max-width: 600px) {
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stat { padding: 1.4rem 0 1.4rem 1.2rem; }
+    .stat:nth-child(odd) { padding-left: 0; border-left: 0; }
+    .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
   }
 
+  /* ---------- Latest ---------- */
+  .feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 2.8rem;
+    align-items: start;
+  }
+  .feature-art img {
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+  }
+  .feature-title {
+    font-family: var(--serif-jp);
+    font-weight: 600;
+    font-size: clamp(1.7rem, 2.6vw, 2rem);
+    line-height: 1.35;
+    color: var(--ink);
+    font-feature-settings: "palt";
+    margin: 0.6rem 0 1.6rem;
+  }
+  .tracklist { list-style: none; border-top: 1px solid var(--line); }
+  .tracklist li {
+    display: flex;
+    gap: 1.2rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+  }
+  .tracklist li span {
+    font-weight: 500;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    padding-top: 0.2em;
+    min-width: 1.6rem;
+  }
+  .feature-buy {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.4rem;
+    margin-top: 1.8rem;
+  }
+  .price {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 1.25rem;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .price small { font-size: 0.75rem; color: var(--muted); margin-left: 0.3rem; letter-spacing: 0.1em; }
+  @media (max-width: 1100px) and (min-width: 900px), (max-width: 640px) {
+    .feature { grid-template-columns: 1fr; gap: 2rem; }
+  }
+
+  /* ---------- Discography ---------- */
+  .channel-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: -1rem;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    transition: color .3s var(--ease);
+  }
+  .channel-link:hover { color: var(--ink); }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.8rem;
+    margin-top: 2.2rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .filter {
+    background: none;
+    border: 0;
+    border-bottom: 1px solid transparent;
+    margin-bottom: -1px;
+    padding: 0.5rem 0;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color .3s var(--ease), border-color .3s var(--ease);
+  }
+  .filter:hover { color: var(--ink); }
+  .filter[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+  .filter .count { margin-left: 0.35em; letter-spacing: 0.05em; }
+
+  .tracks {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem 2rem;
+    margin-top: 3rem;
+  }
+  @media (min-width: 600px) { .tracks { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 900px) { .tracks { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3.5rem 2.2rem; } }
+
+  .track {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  .track-media {
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--wash);
+  }
+  .track-media img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: transform .6s var(--ease);
+  }
+  .track:hover .track-media img { transform: scale(1.03); }
+  .track-row {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--line);
+  }
+  .track-idx {
+    font-family: var(--serif-latin);
+    font-weight: 500;
+    font-size: 1.8rem;
+    line-height: 1;
+    color: var(--muted);
+    min-width: 2.2rem;
+  }
+  .track-title {
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--ink);
+    transition: color .3s var(--ease);
+  }
+  .track:hover .track-title { color: var(--rust); }
+  .track-meta {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-top: 0.25rem;
+  }
+
+  /* ---------- Works ---------- */
+  .works { list-style: none; }
+  .work {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr) auto;
+    gap: 1.2rem;
+    align-items: start;
+    padding: 1.8rem 0;
+    border-top: 1px solid var(--line);
+    text-decoration: none;
+    color: inherit;
+  }
+  .works li:last-child .work { border-bottom: 1px solid var(--line); }
+  .work-idx {
+    font-family: var(--serif-latin);
+    font-weight: 500;
+    font-size: 1.8rem;
+    line-height: 1;
+    color: var(--muted);
+  }
+  .work-title {
+    font-family: var(--serif-jp);
+    font-weight: 500;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: var(--ink);
+    font-feature-settings: "palt";
+    transition: color .3s var(--ease);
+  }
+  .work-desc { font-size: 0.9rem; color: var(--muted); margin-top: 0.4rem; line-height: 1.8; }
+  .work-arrow {
+    color: var(--muted);
+    margin-top: 0.3rem;
+    transition: transform .4s var(--ease), color .3s var(--ease);
+  }
+  .work:hover .work-title { color: var(--rust); }
+  .work:hover .work-arrow { transform: translate(4px, -4px); color: var(--ink); }
+  @media (max-width: 600px) {
+    .work { grid-template-columns: 2.6rem minmax(0, 1fr) auto; gap: 0.8rem; }
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  @media (min-width: 900px) {
+    .contact-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1.9fr); gap: 3rem; }
+  }
+  .contact-copy { font-size: 0.95rem; line-height: 2; color: var(--text); }
+
+  .form-group { margin-bottom: 2rem; }
   .form-group label {
     display: block;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 0.4rem;
-    letter-spacing: 0.05em;
+    font-weight: 500;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 0.1rem;
   }
-
   .form-group input,
   .form-group textarea,
   .form-group select {
     width: 100%;
-    padding: 0.8rem 1rem;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 6px;
+    border: 0;
+    border-bottom: 1px solid var(--line-strong);
+    border-radius: 0;
+    padding: 0.8rem 0;
+    background: transparent;
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.6;
     color: var(--text);
-    font-family: inherit;
-    font-size: 0.95rem;
-    transition: border-color 0.3s;
     outline: none;
+    transition: border-color .3s var(--ease);
   }
-
   .form-group input:focus,
   .form-group textarea:focus,
-  .form-group select:focus {
-    border-color: var(--ink);
-  }
-
-  .form-group textarea {
-    min-height: 140px;
-    resize: vertical;
-  }
-
-  .form-group select option {
-    background: #fff;
-    color: var(--text);
-  }
-
-  .form-submit {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.7rem 2.2rem;
-    background: transparent;
-    border: 1px solid var(--ink);
-    border-radius: 100px;
-    color: var(--ink);
-    font-family: 'Cormorant Garamond', 'Noto Serif JP', serif;
-    font-size: 1rem;
-    letter-spacing: 0.1em;
+  .form-group select:focus { border-bottom-color: var(--ink); }
+  .form-group input:focus-visible,
+  .form-group textarea:focus-visible,
+  .form-group select:focus-visible { outline: none; box-shadow: 0 1px 0 0 var(--ink); }
+  .form-group textarea { min-height: 150px; resize: vertical; }
+  .form-group textarea::placeholder { color: var(--muted); opacity: 1; }
+  .form-group select {
+    -webkit-appearance: none;
+    appearance: none;
+    padding-right: 2rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23431004' stroke-width='1.3'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.2rem center;
   }
+  .form-group select option { background: #fff; color: var(--text); }
 
-  .form-submit:hover {
-    background: var(--ink);
-    color: #fff;
-  }
-
-  .form-note {
-    margin-top: 1rem;
-    font-size: 0.78rem;
-    color: var(--text-muted);
-  }
+  .form-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 1.6rem; }
+  .form-submit { font-size: 0.95rem; padding: 0.9rem 2.4rem; }
+  .form-submit:disabled { opacity: .7; cursor: default; }
+  .form-note { font-size: 0.85rem; color: var(--muted); }
 
   .form-success {
     display: none;
-    padding: 1.5rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    text-align: center;
+    padding: 2rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
     color: var(--ink);
   }
+  .form-success-title {
+    font-family: var(--serif-jp);
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .form-success-text { font-size: 0.95rem; color: var(--muted); }
 
-  /* Stats */
-  .stats-row {
+  /* ---------- Footer ---------- */
+  .footer { border-top: 1px solid var(--line); padding-top: 2.5rem; overflow: hidden; }
+  .footer-mark {
+    font-family: var(--serif-latin);
+    font-weight: 600;
+    font-size: clamp(6rem, 22vw, 18rem);
+    line-height: .9;
+    color: var(--wash);
+    white-space: nowrap;
+    letter-spacing: -0.01em;
+    user-select: none;
+    margin-left: -0.04em;
+  }
+  .footer-row {
     display: flex;
-    gap: 3rem;
     flex-wrap: wrap;
-    margin-bottom: 4rem;
-    padding: 2rem 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .stat {
-    text-align: center;
-  }
-
-  .stat-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.6rem;
-    font-weight: 300;
-    line-height: 1.3;
-    color: var(--ink);
-  }
-
-  .stat-label {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    letter-spacing: 0.2em;
-    margin-top: 0.3rem;
-  }
-
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 3rem 2rem;
-    color: var(--text-muted);
-    font-family: 'Cormorant Garamond', 'Noto Serif JP', serif;
-    font-size: 0.85rem;
-    letter-spacing: 0.05em;
-    border-top: 1px solid var(--border);
-  }
-
-  footer a {
-    color: var(--ink);
-    text-decoration: none;
-  }
-
-  footer a:hover {
-    color: var(--accent-hover);
-  }
-
-  /* Nav */
-  nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 100;
-    padding: 1rem 2rem;
-    display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.3s;
+    gap: 1rem 2rem;
+    padding: 2rem 0 0.6rem;
+    border-top: 1px solid var(--line);
+    margin-top: 1.5rem;
   }
-
-  nav.scrolled {
-    border-bottom-color: var(--border);
-  }
-
-  nav .logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 1.5rem;
-    font-weight: 400;
-    line-height: 1;
+  .footer-name { font-weight: 500; font-size: 0.9rem; letter-spacing: 0.08em; color: var(--ink); }
+  .footer-links { display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; color: var(--muted); }
+  .footer-links a {
     color: var(--ink);
     text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    transition: color .3s var(--ease);
   }
-
-  nav .nav-links {
-    display: flex;
-    gap: 2rem;
-  }
-
-  nav .nav-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
-    transition: color 0.3s;
-  }
-
-  nav .nav-links a:hover {
-    color: var(--ink);
-  }
-
-  /* Responsive */
+  .footer-links a:hover { color: var(--rust); }
+  .copyright { font-size: 0.8rem; letter-spacing: 0.1em; color: var(--muted); padding-bottom: 2.5rem; }
   @media (max-width: 600px) {
-    .hero-sub {
-      letter-spacing: 0.18em;
-    }
-    .disc-grid {
-      grid-template-columns: 1fr;
-    }
-    .stats-row {
-      gap: 2rem;
-      justify-content: center;
-    }
-    nav {
-      padding: 1rem 1.25rem;
-    }
-    nav .nav-links {
-      gap: 1rem;
-    }
-    nav .nav-links a {
-      font-size: 0.75rem;
-    }
+    .footer-row { flex-direction: column; align-items: flex-start; }
   }
 
-  /* Fade-in on scroll */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
+  /* ---------- Scroll reveal ---------- */
+  @media (prefers-reduced-motion: no-preference) {
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .9s var(--ease), transform .9s var(--ease);
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
   }
 </style>
 </head>
 <body>
 
-<nav id="nav">
-  <a href="#" class="logo">14℃</a>
+<nav class="nav" id="nav" aria-label="メイン">
+  <a href="#" class="brand" aria-label="14℃ トップへ">
+    <img src="logo.jpg" alt="" width="30" height="30">
+    <span>14℃</span>
+  </a>
   <div class="nav-links">
     <a href="#about">About</a>
+    <a href="#latest">Latest</a>
     <a href="#discography">Discography</a>
     <a href="#works">Works</a>
     <a href="#contact">Contact</a>
   </div>
+  <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
 </nav>
 
+<div class="menu" id="menu" aria-label="メニュー">
+  <ol>
+    <li><a href="#about"><small>01</small>About</a></li>
+    <li><a href="#latest"><small>02</small>Latest</a></li>
+    <li><a href="#discography"><small>03</small>Discography</a></li>
+    <li><a href="#works"><small>04</small>Works</a></li>
+    <li><a href="#contact"><small>05</small>Contact</a></li>
+  </ol>
+  <div class="menu-foot">
+    <a href="https://www.youtube.com/@14do53" target="_blank" rel="noopener">YouTube</a>
+    <a href="https://x.com/___o14oo" target="_blank" rel="noopener">X (Twitter)</a>
+  </div>
+</div>
+
+<main>
+
 <!-- Hero -->
-<div class="hero">
-  <h1 class="hero-title"><img src="logo.jpg" alt="14℃" class="hero-logo" width="900" height="900"></h1>
-  <p class="hero-sub">Music Creator &nbsp;/&nbsp; Vocaloid Producer</p>
-  <div class="scroll-hint"><span></span></div>
+<header class="hero">
+  <div class="hero-text">
+    <p class="eyebrow rise d1">Music Creator / Vocaloid Producer</p>
+    <h1 class="hero-title rise d2">季節の温度を、<br>音にする。</h1>
+    <p class="hero-lead rise d3"><strong>14℃</strong> — Vocaloid・Instrumental・BGM制作</p>
+    <div class="hero-actions rise d4">
+      <a class="btn" href="https://www.youtube.com/@14do53" target="_blank" rel="noopener">
+        YouTubeで聴く
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="btn btn-ghost" href="#contact">制作依頼</a>
+    </div>
+  </div>
+  <div class="hero-visual rise d5">
+    <img src="logo.jpg" alt="14℃ ロゴ" class="hero-logo" width="900" height="900">
+  </div>
+</header>
+
+<!-- Ticker -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>14℃ ／ Music Creator ／ Vocaloid Producer ／ Instrumental ／ BGM ／ Since 2021 ／ 14℃ ／ Music Creator ／ Vocaloid Producer ／ Instrumental ／ BGM ／ Since 2021 ／</span>
+    <span>14℃ ／ Music Creator ／ Vocaloid Producer ／ Instrumental ／ BGM ／ Since 2021 ／ 14℃ ／ Music Creator ／ Vocaloid Producer ／ Instrumental ／ BGM ／ Since 2021 ／</span>
+  </div>
 </div>
 
 <!-- About -->
-<section id="about">
-  <div class="fade-in">
-    <p class="section-label">About</p>
-    <h2 class="section-title">14℃について</h2>
-    <p class="about-text">
-      初音ミクをボーカルに迎え、季節の移ろいや心の機微を繊細に描くボカロP。
-      春の風、夏の終わり、雨の情景など、自然と感情が溶け合うような楽曲を制作している。
-      インストゥルメンタル作品も手がけ、言葉を超えた音の風景を届けている。
-      2021年より活動を開始し、これまでに12作品を発表。
-    </p>
-    <div class="about-links" id="links">
-      <a href="https://www.youtube.com/@14do53" target="_blank" rel="noopener">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.9 31.9 0 0 0 0 12a31.9 31.9 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.3-1.8.5-3.8.5-5.8s-.2-4-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
-        YouTube
-      </a>
-      <a href="https://x.com/___o14oo" target="_blank" rel="noopener">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        @___o14oo
-      </a>
+<section class="sec" id="about">
+  <div class="wrap grid">
+    <div class="sec-side">
+      <div class="sec-marker"><span class="sec-num">01</span><span class="eyebrow">About</span></div>
     </div>
-  </div>
-</section>
-
-<!-- Stats -->
-<section style="padding-top:0">
-  <div class="stats-row fade-in">
-    <div class="stat">
-      <div class="stat-num">12</div>
-      <div class="stat-label">TRACKS</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">8</div>
-      <div class="stat-label">VOCAL</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">4</div>
-      <div class="stat-label">INSTRUMENTAL</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">2021–</div>
-      <div class="stat-label">ACTIVE SINCE</div>
-    </div>
-  </div>
-</section>
-
-<!-- Discography — CD -->
-<section id="discography">
-  <div class="fade-in">
-    <p class="section-label">Discography</p>
-    <h2 class="section-title">CD</h2>
-  </div>
-
-  <div class="disc-grid cd-grid">
-    <a class="track-card fade-in" href="https://shop.yamado.co.jp/items/87192174" target="_blank" rel="noopener">
-      <img class="track-thumb" src="116845f604ec9fa3ed09f247dd1647be.jpg" alt="水平線の記憶" loading="lazy" style="aspect-ratio:1/1;">
-      <div class="track-info">
-        <div class="track-title">水平線の記憶</div>
-        <div class="track-meta">
-          <span>2025</span>
-          <span class="track-type cd">CD — ¥1,100</span>
+    <div class="sec-main">
+      <div class="fade-in">
+        <h2 class="heading">14℃について</h2>
+        <p class="about-text" style="margin-top:2rem">
+          初音ミクをボーカルに迎え、季節の移ろいや心の機微を繊細に描くボカロP。
+          春の風、夏の終わり、雨の情景など、自然と感情が溶け合うような楽曲を制作している。
+          インストゥルメンタル作品も手がけ、言葉を超えた音の風景を届けている。
+          2021年より活動を開始し、これまでに12作品を発表。
+        </p>
+        <div class="pills" id="links">
+          <a class="pill" href="https://www.youtube.com/@14do53" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.9 31.9 0 0 0 0 12a31.9 31.9 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.3-1.8.5-3.8.5-5.8s-.2-4-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+            YouTube
+          </a>
+          <a class="pill" href="https://x.com/___o14oo" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            @___o14oo
+          </a>
         </div>
-        <div class="track-tracklist">1. saisei / 2. kaika / 3. 無謬の光 / 4. 現世より</div>
       </div>
-    </a>
+
+      <div class="stats fade-in">
+        <div class="stat">
+          <div class="stat-num">12</div>
+          <div class="eyebrow">Tracks</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">8</div>
+          <div class="eyebrow">Vocal</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4</div>
+          <div class="eyebrow">Instrumental</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">2021–</div>
+          <div class="eyebrow">Active since</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Latest (CD) -->
+<section class="sec" id="latest">
+  <div class="wrap grid">
+    <div class="sec-side">
+      <div class="sec-marker"><span class="sec-num">02</span><span class="eyebrow">Latest</span></div>
+    </div>
+    <div class="sec-main">
+      <article class="feature fade-in">
+        <a class="feature-art" href="https://shop.yamado.co.jp/items/87192174" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <img src="116845f604ec9fa3ed09f247dd1647be.jpg" alt="" loading="lazy" width="420" height="420">
+        </a>
+        <div class="feature-body">
+          <p class="eyebrow">CD — 2025</p>
+          <h2 class="feature-title">水平線の記憶</h2>
+          <ol class="tracklist">
+            <li><span>01</span>saisei</li>
+            <li><span>02</span>kaika</li>
+            <li><span>03</span>無謬の光</li>
+            <li><span>04</span>現世より</li>
+          </ol>
+          <div class="feature-buy">
+            <p class="price">¥1,100</p>
+            <a class="btn" href="https://shop.yamado.co.jp/items/87192174" target="_blank" rel="noopener">
+              Shopで購入
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
   </div>
 </section>
 
 <!-- Discography — YouTube -->
-<section>
-  <div class="fade-in">
-    <p class="section-label">Discography</p>
-    <h2 class="section-title">YouTube</h2>
-    <a class="channel-link" href="https://www.youtube.com/@14do53" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.9 31.9 0 0 0 0 12a31.9 31.9 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.3-1.8.5-3.8.5-5.8s-.2-4-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>@14do53</a>
-  </div>
-
-  <div class="disc-grid">
-    <a class="track-card fade-in" href="https://www.youtube.com/watch?v=iKgZ_LZSits" target="_blank" rel="noopener">
-      <img class="track-thumb" src="https://i.ytimg.com/vi/iKgZ_LZSits/hqdefault.jpg" alt="Overlap" loading="lazy">
-      <div class="track-info">
-        <div class="track-title">Overlap</div>
-        <div class="track-meta">
-          <span>2024</span>
-          <span class="track-type">Vocal — 初音ミク</span>
-        </div>
+<section class="sec" id="discography">
+  <div class="wrap grid">
+    <div class="sec-side">
+      <div class="sec-marker"><span class="sec-num">03</span><span class="eyebrow">Discography</span></div>
+    </div>
+    <div class="sec-main fade-in">
+      <h2 class="heading">YouTube</h2>
+      <a class="channel-link" href="https://www.youtube.com/@14do53" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.9 31.9 0 0 0 0 12a31.9 31.9 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.3-1.8.5-3.8.5-5.8s-.2-4-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>@14do53</a>
+      <div class="filters" role="group" aria-label="種類で絞り込み">
+        <button class="filter" type="button" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter" type="button" data-filter="vocal" aria-pressed="false">Vocal</button>
+        <button class="filter" type="button" data-filter="inst" aria-pressed="false">Instrumental</button>
       </div>
-    </a>
+    </div>
 
-    <a class="track-card fade-in" href="https://www.youtube.com/watch?v=K2Y8NehM2uU" target="_blank" rel="noopener">
-      <img class="track-thumb" src="https://i.ytimg.com/vi/K2Y8NehM2uU/hqdefault.jpg" alt="月のねごと" loading="lazy">
-      <div class="track-info">
-        <div class="track-title">月のねごと</div>
-        <div class="track-meta">
-          <span>2023</span>
-          <span class="track-type inst">Instrumental</span>
-        </div>
-      </div>
-    </a>
+    <div class="sec-full tracks" id="tracks">
+      <a class="track fade-in" data-type="vocal" href="https://www.youtube.com/watch?v=iKgZ_LZSits" target="_blank" rel="noopener">
+        <div class="track-media"><img src="https://i.ytimg.com/vi/iKgZ_LZSits/hqdefault.jpg" alt="Overlap" loading="lazy"></div>
+        <div class="track-row"><span class="track-idx">01</span><div><div class="track-title">Overlap</div><div class="track-meta">2024 · Vocal — 初音ミク</div></div></div>
+      </a>
 
-    <a class="track-card fade-in" href="https://www.youtube.com/watch?v=Yyu-yOkJNS4" target="_blank" rel="noopener">
-      <img class="track-thumb" src="https://i.ytimg.com/vi/Yyu-yOkJNS4/hqdefault.jpg" alt="晩夏" loading="lazy">
-      <div class="track-info">
-        <div class="track-title">晩夏</div>
-        <div class="track-meta">
-          <span>2023</span>
-          <span class="track-type inst">Instrumental</span>
-        </div>
-      </div>
-    </a>
+      <a class="track fade-in" data-type="inst" href="https://www.youtube.com/watch?v=K2Y8NehM2uU" target="_blank" rel="noopener">
+        <div class="track-media"><img src="https://i.ytimg.com/vi/K2Y8NehM2uU/hqdefault.jpg" alt="月のねごと" loading="lazy"></div>
+        <div class="track-row"><span class="track-idx">02</span><div><div class="track-title">月のねごと</div><div class="track-meta">2023 · Instrumental</div></div></div>
+      </a>
 
-    <a class="track-card fade-in" href="https://www.youtube.com/watch?v=VdHPG1eR51s" target="_blank" rel="noopener">
-      <img class="track-thumb" src="https://i.ytimg.com/vi/VdHPG1eR51s/hqdefault.jpg" alt="五月雨、心惑い" loading="lazy">
-      <div class="track-info">
-        <div class="track-title">五月雨、心惑い</div>
-        <div class="track-meta">
-          <span>2023</span>
-          <span class="track-type inst">Instrumental</span>
-        </div>
-      </div>
-    </a>
+      <a class="track fade-in" data-type="inst" href="https://www.youtube.com/watch?v=Yyu-yOkJNS4" target="_blank" rel="noopener">
+        <div class="track-media"><img src="https://i.ytimg.com/vi/Yyu-yOkJNS4/hqdefault.jpg" alt="晩夏" loading="lazy"></div>
+        <div class="track-row"><span class="track-idx">03</span><div><div class="track-title">晩夏</div><div class="track-meta">2023 · Instrumental</div></div></div>
+      </a>
 
-    <a class="track-card fade-in" href="https://www.youtube.com/watch?v=vtYnyaxvQIM" target="_blank" rel="noopener">
-      <img class="track-thumb" src="https://i.ytimg.com/vi/vtYnyaxvQIM/hqdefault.jpg" alt="エピローグ" loading="lazy">
-      <div class="track-info">
-        <div class="track-title">エピローグ</div>
-        <div class="track-meta">
-          <span>2023</span>
-          <span class="track-type inst">Instrumental</span>
-        </div>
-      </div>
-    </a>
+      <a class="track fade-in" data-type="inst" href="https://www.youtube.com/watch?v=VdHPG1eR51s" target="_blank" rel="noopener">
+        <div class="track-media"><img src="https://i.ytimg.com/vi/VdHPG1eR51s/hqdefault.jpg" alt="五月雨、心惑い" loading="lazy"></div>
+        <div class="track-row"><span class="track-idx">04</span><div><div class="track-title">五月雨、心惑い</div><div class="track-meta">2023 · Instrumental</div></div></div>
+      </a>
 
-    <a class="track-card fade-in" href="https://www.youtube.com/watch?v=7vNeqxNKNuc" target="_blank" rel="noopener">
-      <img class="track-thumb" src="https://i.ytimg.com/vi/7vNeqxNKNuc/hqdefault.jpg" alt="春疾風" loading="lazy">
-      <div class="track-info">
-        <div class="track-title">春疾風</div>
-        <div class="track-meta">
-          <span>2022</span>
-          <span class="track-type">Vocal — 初音ミク</span>
-        </div>
-      </div>
-    </a>
+      <a class="track fade-in" data-type="inst" href="https://www.youtube.com/watch?v=vtYnyaxvQIM" target="_blank" rel="noopener">
+        <div class="track-media"><img src="https://i.ytimg.com/vi/vtYnyaxvQIM/hqdefault.jpg" alt="エピローグ" loading="lazy"></div>
+        <div class="track-row"><span class="track-idx">05</span><div><div class="track-title">エピローグ</div><div class="track-meta">2023 · Instrumental</div></div></div>
+      </a>
 
-    <a class="track-card fade-in" href="https://www.youtube.com/watch?v=nWfTyIHbKT4" target="_blank" rel="noopener">
-      <img class="track-thumb" src="https://i.ytimg.com/vi/nWfTyIHbKT4/hqdefault.jpg" alt="裸の少年" loading="lazy">
-      <div class="track-info">
-        <div class="track-title">裸の少年</div>
-        <div class="track-meta">
-          <span>2022 &nbsp;·&nbsp; with umigame</span>
-          <span class="track-type">Vocal — 初音ミク</span>
-        </div>
-      </div>
-    </a>
+      <a class="track fade-in" data-type="vocal" href="https://www.youtube.com/watch?v=7vNeqxNKNuc" target="_blank" rel="noopener">
+        <div class="track-media"><img src="https://i.ytimg.com/vi/7vNeqxNKNuc/hqdefault.jpg" alt="春疾風" loading="lazy"></div>
+        <div class="track-row"><span class="track-idx">06</span><div><div class="track-title">春疾風</div><div class="track-meta">2022 · Vocal — 初音ミク</div></div></div>
+      </a>
 
-    <a class="track-card fade-in" href="https://www.youtube.com/watch?v=BOjJh6SkChI" target="_blank" rel="noopener">
-      <img class="track-thumb" src="https://i.ytimg.com/vi/BOjJh6SkChI/hqdefault.jpg" alt="雨の庭" loading="lazy">
-      <div class="track-info">
-        <div class="track-title">雨の庭</div>
-        <div class="track-meta">
-          <span>2022</span>
-          <span class="track-type">Vocal — 初音ミク</span>
-        </div>
-      </div>
-    </a>
+      <a class="track fade-in" data-type="vocal" href="https://www.youtube.com/watch?v=nWfTyIHbKT4" target="_blank" rel="noopener">
+        <div class="track-media"><img src="https://i.ytimg.com/vi/nWfTyIHbKT4/hqdefault.jpg" alt="裸の少年" loading="lazy"></div>
+        <div class="track-row"><span class="track-idx">07</span><div><div class="track-title">裸の少年</div><div class="track-meta">2022 · Vocal — 初音ミク · with umigame</div></div></div>
+      </a>
 
-    <a class="track-card fade-in" href="https://www.youtube.com/watch?v=ep5ltuRKrt4" target="_blank" rel="noopener">
-      <img class="track-thumb" src="https://i.ytimg.com/vi/ep5ltuRKrt4/hqdefault.jpg" alt="海月姫" loading="lazy">
-      <div class="track-info">
-        <div class="track-title">海月姫</div>
-        <div class="track-meta">
-          <span>2022</span>
-          <span class="track-type">Vocal — 初音ミク</span>
-        </div>
-      </div>
-    </a>
+      <a class="track fade-in" data-type="vocal" href="https://www.youtube.com/watch?v=BOjJh6SkChI" target="_blank" rel="noopener">
+        <div class="track-media"><img src="https://i.ytimg.com/vi/BOjJh6SkChI/hqdefault.jpg" alt="雨の庭" loading="lazy"></div>
+        <div class="track-row"><span class="track-idx">08</span><div><div class="track-title">雨の庭</div><div class="track-meta">2022 · Vocal — 初音ミク</div></div></div>
+      </a>
 
-    <a class="track-card fade-in" href="https://www.youtube.com/watch?v=M6G56P7TdoM" target="_blank" rel="noopener">
-      <img class="track-thumb" src="https://i.ytimg.com/vi/M6G56P7TdoM/hqdefault.jpg" alt="君と雨のパレード" loading="lazy">
-      <div class="track-info">
-        <div class="track-title">君と雨のパレード</div>
-        <div class="track-meta">
-          <span>2022</span>
-          <span class="track-type">Vocal — 初音ミク</span>
-        </div>
-      </div>
-    </a>
+      <a class="track fade-in" data-type="vocal" href="https://www.youtube.com/watch?v=ep5ltuRKrt4" target="_blank" rel="noopener">
+        <div class="track-media"><img src="https://i.ytimg.com/vi/ep5ltuRKrt4/hqdefault.jpg" alt="海月姫" loading="lazy"></div>
+        <div class="track-row"><span class="track-idx">09</span><div><div class="track-title">海月姫</div><div class="track-meta">2022 · Vocal — 初音ミク</div></div></div>
+      </a>
 
-    <a class="track-card fade-in" href="https://www.youtube.com/watch?v=cJtVPfqead0" target="_blank" rel="noopener">
-      <img class="track-thumb" src="https://i.ytimg.com/vi/cJtVPfqead0/hqdefault.jpg" alt="白日の蜃気楼" loading="lazy">
-      <div class="track-info">
-        <div class="track-title">白日の蜃気楼</div>
-        <div class="track-meta">
-          <span>2022</span>
-          <span class="track-type">Vocal — 初音ミク</span>
-        </div>
-      </div>
-    </a>
+      <a class="track fade-in" data-type="vocal" href="https://www.youtube.com/watch?v=M6G56P7TdoM" target="_blank" rel="noopener">
+        <div class="track-media"><img src="https://i.ytimg.com/vi/M6G56P7TdoM/hqdefault.jpg" alt="君と雨のパレード" loading="lazy"></div>
+        <div class="track-row"><span class="track-idx">10</span><div><div class="track-title">君と雨のパレード</div><div class="track-meta">2022 · Vocal — 初音ミク</div></div></div>
+      </a>
 
-    <a class="track-card fade-in" href="https://www.youtube.com/watch?v=If8vDz-tl-c" target="_blank" rel="noopener">
-      <img class="track-thumb" src="https://i.ytimg.com/vi/If8vDz-tl-c/hqdefault.jpg" alt="瞬き" loading="lazy">
-      <div class="track-info">
-        <div class="track-title">瞬き</div>
-        <div class="track-meta">
-          <span>2021</span>
-          <span class="track-type">Vocal — 初音ミク</span>
-        </div>
-      </div>
-    </a>
+      <a class="track fade-in" data-type="vocal" href="https://www.youtube.com/watch?v=cJtVPfqead0" target="_blank" rel="noopener">
+        <div class="track-media"><img src="https://i.ytimg.com/vi/cJtVPfqead0/hqdefault.jpg" alt="白日の蜃気楼" loading="lazy"></div>
+        <div class="track-row"><span class="track-idx">11</span><div><div class="track-title">白日の蜃気楼</div><div class="track-meta">2022 · Vocal — 初音ミク</div></div></div>
+      </a>
 
+      <a class="track fade-in" data-type="vocal" href="https://www.youtube.com/watch?v=If8vDz-tl-c" target="_blank" rel="noopener">
+        <div class="track-media"><img src="https://i.ytimg.com/vi/If8vDz-tl-c/hqdefault.jpg" alt="瞬き" loading="lazy"></div>
+        <div class="track-row"><span class="track-idx">12</span><div><div class="track-title">瞬き</div><div class="track-meta">2021 · Vocal — 初音ミク</div></div></div>
+      </a>
+    </div>
   </div>
 </section>
 
 <!-- Works -->
-<section id="works">
-  <div class="fade-in">
-    <p class="section-label">Works</p>
-    <h2 class="section-title">Works</h2>
-  </div>
-
-  <div class="works-list">
-    <a class="work-item fade-in" href="https://www.yamado.co.jp" target="_blank" rel="noopener">
-      <div class="work-icon">♪</div>
-      <div class="work-detail">
-        <div class="work-title">山人-yamado- 季節イベント「雪あかりタイム」音楽</div>
-        <div class="work-desc">岩手県西和賀町・山人-yamado- の冬季イベント「雪あかり」にて使用される音楽を制作</div>
-      </div>
-      <svg class="work-external" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-    </a>
-    <a class="work-item fade-in" href="https://oga.yamado.co.jp" target="_blank" rel="noopener">
-      <div class="work-icon">♪</div>
-      <div class="work-detail">
-        <div class="work-title">山人-oga- ラウンジ音楽</div>
-        <div class="work-desc">秋田県男鹿市・山人-oga- 館内ラウンジにて使用されるBGMを制作</div>
-      </div>
-      <svg class="work-external" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-    </a>
+<section class="sec" id="works">
+  <div class="wrap grid">
+    <div class="sec-side">
+      <div class="sec-marker"><span class="sec-num">04</span><span class="eyebrow">Works</span></div>
+    </div>
+    <div class="sec-main">
+      <h2 class="heading fade-in">Works</h2>
+      <ul class="works fade-in">
+        <li>
+          <a class="work" href="https://www.yamado.co.jp" target="_blank" rel="noopener">
+            <span class="work-idx">01</span>
+            <div>
+              <div class="work-title">山人-yamado- 季節イベント「雪あかりタイム」音楽</div>
+              <div class="work-desc">岩手県西和賀町・山人-yamado- の冬季イベント「雪あかり」にて使用される音楽を制作</div>
+            </div>
+            <svg class="work-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+          </a>
+        </li>
+        <li>
+          <a class="work" href="https://oga.yamado.co.jp" target="_blank" rel="noopener">
+            <span class="work-idx">02</span>
+            <div>
+              <div class="work-title">山人-oga- ラウンジ音楽</div>
+              <div class="work-desc">秋田県男鹿市・山人-oga- 館内ラウンジにて使用されるBGMを制作</div>
+            </div>
+            <svg class="work-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </section>
 
 <!-- Contact -->
-<section id="contact">
-  <div class="fade-in">
-    <p class="section-label">Contact</p>
-    <h2 class="section-title">制作依頼・お問い合わせ</h2>
-  </div>
+<section class="sec" id="contact">
+  <div class="wrap grid">
+    <div class="sec-side">
+      <div class="sec-marker"><span class="sec-num">05</span><span class="eyebrow">Contact</span></div>
+    </div>
+    <div class="sec-main">
+      <h2 class="heading fade-in">制作依頼・お問い合わせ</h2>
+      <div class="contact-body">
+        <p class="contact-copy fade-in">楽曲制作・BGM・編曲のご相談はフォームからどうぞ。通常3日以内にご返信いたします。</p>
 
-  <form class="contact-form fade-in" id="contact-form" action="https://formspree.io/f/xbdpqzny" method="POST">
-    <div class="form-group">
-      <label for="name">お名前 *</label>
-      <input type="text" id="name" name="name" required>
-    </div>
-    <div class="form-group">
-      <label for="email">メールアドレス *</label>
-      <input type="email" id="email" name="email" required>
-    </div>
-    <div class="form-group">
-      <label for="category">ご依頼内容</label>
-      <select id="category" name="category">
-        <option value="">選択してください</option>
-        <option value="楽曲制作">楽曲制作（BGM・テーマ曲など）</option>
-        <option value="編曲・アレンジ">編曲・アレンジ</option>
-        <option value="その他">その他のご相談</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="message">メッセージ *</label>
-      <textarea id="message" name="message" placeholder="ご依頼の詳細、ご予算、納期などをお書きください" required></textarea>
-    </div>
-    <button type="submit" class="form-submit">送信する</button>
-    <p class="form-note">※ 通常3日以内にご返信いたします</p>
-  </form>
+        <div>
+          <form class="contact-form fade-in" id="contact-form" action="https://formspree.io/f/xbdpqzny" method="POST">
+            <div class="form-group">
+              <label for="name">お名前 *</label>
+              <input type="text" id="name" name="name" autocomplete="name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">メールアドレス *</label>
+              <input type="email" id="email" name="email" autocomplete="email" required>
+            </div>
+            <div class="form-group">
+              <label for="category">ご依頼内容</label>
+              <select id="category" name="category">
+                <option value="">選択してください</option>
+                <option value="楽曲制作">楽曲制作（BGM・テーマ曲など）</option>
+                <option value="編曲・アレンジ">編曲・アレンジ</option>
+                <option value="その他">その他のご相談</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">メッセージ *</label>
+              <textarea id="message" name="message" placeholder="ご依頼の詳細、ご予算、納期などをお書きください" required></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn form-submit">送信する</button>
+            </div>
+          </form>
 
-  <div class="form-success" id="form-success">
-    <p style="font-size:1.2rem; margin-bottom:0.5rem;">送信しました</p>
-    <p style="font-size:0.9rem; color:var(--text-muted);">お問い合わせありがとうございます。内容を確認の上、ご連絡いたします。</p>
+          <div class="form-success" id="form-success" role="status">
+            <p class="form-success-title">送信しました</p>
+            <p class="form-success-text">お問い合わせありがとうございます。内容を確認の上、ご連絡いたします。</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- Support / Donate (Stripe審査通過後に有効化) -->
 <!--
-<section id="support">
-  <div class="fade-in">
-    <p class="section-label">Support</p>
-    <h2 class="section-title">応援する</h2>
-  </div>
-  <div class="fade-in">
-    <p class="about-text" style="margin-bottom:2rem;">
-      活動を応援いただける方は、こちらから寄付をお願いいたします。
-      いただいたご支援は楽曲制作・機材購入に充てさせていただきます。
-    </p>
-    ここにStripe Payment Linkボタンを配置
+<section class="sec" id="support">
+  <div class="wrap grid">
+    <div class="sec-side">
+      <div class="sec-marker"><span class="sec-num">06</span><span class="eyebrow">Support</span></div>
+    </div>
+    <div class="sec-main fade-in">
+      <h2 class="heading">応援する</h2>
+      <p class="about-text" style="margin:2rem 0;">
+        活動を応援いただける方は、こちらから寄付をお願いいたします。
+        いただいたご支援は楽曲制作・機材購入に充てさせていただきます。
+      </p>
+      ここにStripe Payment Linkボタンを配置
+    </div>
   </div>
 </section>
 -->
 
-<footer>
-  <p>14℃ Music Portfolio</p>
-  <p style="margin-top:0.5rem">
-    <a href="https://www.youtube.com/@14do53" target="_blank" rel="noopener">YouTube</a>
-    &nbsp;&middot;&nbsp;
-    <a href="https://x.com/___o14oo" target="_blank" rel="noopener">X (Twitter)</a>
-  </p>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-mark" aria-hidden="true">14℃</div>
+    <div class="footer-row">
+      <p class="footer-name">14℃ Music Portfolio</p>
+      <p class="footer-links">
+        <a href="https://www.youtube.com/@14do53" target="_blank" rel="noopener">YouTube</a>
+        <span aria-hidden="true">·</span>
+        <a href="https://x.com/___o14oo" target="_blank" rel="noopener">X (Twitter)</a>
+      </p>
+    </div>
+    <p class="copyright">© 2021– 14℃</p>
+  </div>
 </footer>
 
 <script>
@@ -886,6 +1095,7 @@
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
       }
     });
   }, { threshold: 0.1 });
@@ -893,9 +1103,35 @@
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
   // Nav scroll effect
-  window.addEventListener('scroll', () => {
-    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 50);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Mobile menu
+  const menuBtn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+  const setMenu = (open) => {
+    menu.classList.toggle('open', open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.textContent = open ? 'Close' : 'Menu';
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) menu.querySelector('a').focus();
+  };
+  menuBtn.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu.classList.contains('open')) { setMenu(false); menuBtn.focus(); }
   });
+
+  // Discography filter
+  const filters = document.querySelectorAll('.filter');
+  const tracks = document.querySelectorAll('#tracks .track');
+  filters.forEach(btn => btn.addEventListener('click', () => {
+    const f = btn.dataset.filter;
+    filters.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    tracks.forEach(t => { t.hidden = f !== 'all' && t.dataset.type !== f; });
+  }));
 
   // Contact form submit
   const form = document.getElementById('contact-form');
